@@ -21,7 +21,7 @@ COPY src /code/src
 # Build the native executable
 # -Pnative enables the native profile in pom.xml
 # -Dquarkus.native.container-build=true tells Quarkus to build inside a container (this one)
-RUN ./mvnw package -Pnative -Dquarkus.native.container-build=true -DskipTests
+RUN ./mvnw package -Pnative -DskipTests
 
 ### Stage 2: Create the runtime image
 # Use a minimal base image provided by Quarkus
