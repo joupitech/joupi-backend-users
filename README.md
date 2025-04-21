@@ -1,3 +1,75 @@
+# Joupi Backend - Users API
+
+This repository contains the user management API for the Joupi project.
+
+## Environment Setup
+
+### Prerequisites
+- JDK 21
+- Maven
+- Docker (for PostgreSQL)
+
+### Database
+The application uses PostgreSQL. Run the container:
+
+```bash
+docker run --name joupi-db-dev -p 5433:5432 -e POSTGRES_USER=joupi -e POSTGRES_PASSWORD=joupi -e POSTGRES_DB=joupi_db -d postgres:16-alpine
+```
+
+### Firebase Configuration
+
+For local development, you need to configure authentication with Firebase:
+
+1. Get the JSON credentials file from the Firebase Console:
+   - Go to Firebase Console > Project settings > Service accounts
+   - Click on "Generate new private key"
+   - Save the file as `firebase-credentials.json` in the project root
+
+2. Configure the environment variable (choose one option):
+
+   **Option 1 - Set directly in terminal:**
+   ```bash
+   export GOOGLE_APPLICATION_CREDENTIALS=$(cat firebase-credentials.json)
+   ```
+
+   **Option 2 - Use the helper script:**
+   ```bash
+   # First run the script to create the file:
+   echo 'export GOOGLE_APPLICATION_CREDENTIALS="$(cat firebase-credentials.json)"' > set-firebase-env.sh
+   chmod +x set-firebase-env.sh
+   
+   # Then load the variables:
+   source ./set-firebase-env.sh
+   ```
+
+## Running the Application
+
+To start the application in development mode:
+
+```bash
+./mvnw quarkus:dev
+```
+
+To clean the database and apply migrations from scratch:
+
+```bash
+./mvnw quarkus:dev -Dquarkus.flyway.clean-at-start=true
+```
+
+## API Endpoints
+
+API documentation is available through Swagger UI at:
+http://localhost:8080/api/swagger-ui/
+
+## Technologies Used
+
+- Quarkus
+- Kotlin
+- Hibernate ORM with Panache
+- PostgreSQL
+- Firebase Authentication
+- Flyway for migrations
+
 # joupi-backend-users
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
@@ -23,7 +95,7 @@ The application can be packaged using:
 ```
 
 It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+Be aware that it's not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
 
 The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
 

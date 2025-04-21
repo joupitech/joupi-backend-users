@@ -46,7 +46,6 @@ class UserService {
         if (createUserDTO.email.isNotBlank() && userRepository.findByEmail(createUserDTO.email) != null) {
             throw WebApplicationException("A user with this email already exists", Response.Status.CONFLICT)
         }
-        
         val firebaseUser = try {
             firebaseAuthService.createUser(
                 createUserDTO.email,
